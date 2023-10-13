@@ -6,15 +6,36 @@ const talentSchema = new Schema({
     type: String,
     required: true,
   },
-  description: {
+  birthday: {
     type: String,
+    required: true,
   },
-  image: {
+  debut: {
     type: String,
+    required: true,
+  },
+  height: {
+    type: String,
+    required: true,
   },
   category: {
     type: String,
     required: true,
+  },
+  illustrator: {
+    type: String,
+    required: true,
+  },
+  dream: {
+    type: String,
+    required: true,
+  },
+  fanName: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
   },
 });
 

@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+const talentSchema = require("./talent");
+
 const videoSchema = new Schema({
   name: {
     type: String,
@@ -11,6 +13,7 @@ const videoSchema = new Schema({
   },
   link: {
     type: String,
+    required: true,
   },
   category: {
     type: String,
@@ -22,5 +25,5 @@ const videoSchema = new Schema({
   },
 });
 
-const Video = model("Video", videoSchema);
+const Video = model("Video", videoSchema, "video");
 module.exports = Video;

@@ -13,7 +13,9 @@ router.get("/", async (req, res) => {
     if (category) {
       filter.category = category;
     }
-    res.status(200).send(await Video.find(filter).sort({ _id: -1 }));
+    res
+      .status(200)
+      .send(await Video.find(filter).populate("talent").sort({ _id: -1 }));
   } catch (error) {
     res.status(400).send("Video not found");
   }
@@ -35,6 +37,7 @@ router.post("/", isAdminMiddleware, async (req, res) => {
       link: req.body.link,
       category: req.body.category,
       image: req.body.image,
+      talent: req.body.talent,
     });
     await newVideo.save();
 

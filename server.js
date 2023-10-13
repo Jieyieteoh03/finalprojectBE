@@ -26,11 +26,15 @@ const authRouter = require("./routes/auth");
 const talentRouter = require("./routes/talent");
 const imageRouter = require("./routes/image");
 const videoRouter = require("./routes/video");
+const postRouter = require("./routes/post");
+const commentRouter = require("./routes/comment");
 
 app.use("/auth", authRouter);
 app.use("/talents", talentRouter);
 app.use("/images", imageRouter);
 app.use("/videos", videoRouter);
+app.use("/posts", postRouter);
+app.use("/comments", commentRouter);
 
 app.use("/uploads", express.static("uploads"));
 

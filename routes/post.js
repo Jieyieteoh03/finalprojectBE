@@ -3,18 +3,21 @@ const router = express.Router();
 
 const Post = require("../models/post");
 
-// router.get("/", async (req, res) => {
-//   try {
-//     const { category } = req.query;
-//     let filter = {};
-//     if (category) {
-//       filter.category = category;
-//     }
-//     res.status(200).send(await Video.find(filter).sort({ _id: -1 }));
-//   } catch (error) {
-//     res.status(400).send("Video not found");
-//   }
-// });
+router.get("/", async (req, res) => {
+  try {
+    const { category } = req.query;
+    let filter = {};
+    if (category) {
+      filter.category = category;
+    }
+    res
+      .status(200)
+      .send(await Post.find(filter).populate("talent").sort({ _id: -1 }));
+  } catch (error) {
+    console.log(error);
+    res.status(400).send("Post not found");
+  }
+});
 
 router.get("/:id", async (req, res) => {
   try {
@@ -26,12 +29,14 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  console.log(req.body);
   try {
     const newPost = new Post({
       name: req.body.name,
       description: req.body.description,
       category: req.body.category,
       image: req.body.image,
+      talent: req.body.talent,
     });
     await newPost.save();
 

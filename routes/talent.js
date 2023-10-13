@@ -32,9 +32,16 @@ router.post("/", isAdminMiddleware, async (req, res) => {
   try {
     const newTalent = new Talent({
       name: req.body.name,
-      description: req.body.description,
+      birthday: req.body.birthday,
+      debut: req.body.debut,
+      height: req.body.height,
       category: req.body.category,
+      illustrator: req.body.illustrator,
+      dream: req.body.dream,
+      fanName: req.body.fanName,
       image: req.body.image,
+      post: req.body.post,
+      video: req.body.video,
     });
     await newTalent.save();
 
