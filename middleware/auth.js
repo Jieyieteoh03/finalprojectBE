@@ -5,7 +5,6 @@ const { JWT_SECRET } = require("../config");
 const authMiddleware = async (req, res, next) => {
   try {
     const token = req.headers.authorization.replace("Bearer ", "");
-
     // decode the token
     const decoded = jwt.verify(token, JWT_SECRET);
 

@@ -3,6 +3,9 @@ const router = express.Router();
 
 const Post = require("../models/post");
 
+const authMiddleware = require("../middleware/auth");
+const isAdminMiddleware = require("../middleware/isAdmin");
+
 router.get("/", async (req, res) => {
   try {
     const { category } = req.query;
@@ -10,11 +13,16 @@ router.get("/", async (req, res) => {
     if (category) {
       filter.category = category;
     }
+
     res
       .status(200)
-      .send(await Post.find(filter).populate("talent").sort({ _id: -1 }));
+      .send(
+        await Post.find(filter)
+          .populate("talent")
+          .populate("user")
+          .sort({ _id: -1 })
+      );
   } catch (error) {
-    console.log(error);
     res.status(400).send("Post not found");
   }
 });
@@ -28,8 +36,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
-  console.log(req.body);
+router.post("/", authMiddleware, async (req, res) => {
   try {
     const newPost = new Post({
       name: req.body.name,
@@ -37,6 +44,7 @@ router.post("/", async (req, res) => {
       category: req.body.category,
       image: req.body.image,
       talent: req.body.talent,
+      user: req.user._id,
     });
     await newPost.save();
 
@@ -46,26 +54,27 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", authMiddleware, async (req, res) => {
   try {
     const post_id = req.params.id;
     const updatedPost = await Post.findByIdAndUpdate(post_id, req.body, {
       runValidators: true,
       new: true,
     });
+
     res.status(200).send(updatedPost);
   } catch (error) {
+    console.log(error);
     res.status(400).send({ message: error._message });
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     const post_id = req.params.id;
     const deletePost = await Post.findByIdAndDelete(post_id);
     res.status(200).send(deletePost);
   } catch (error) {
-    console.log(error);
     res.status(400).send({ message: error._message });
   }
 });

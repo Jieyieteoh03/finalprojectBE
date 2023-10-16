@@ -13,6 +13,7 @@ router.get("/", async (req, res) => {
     if (category) {
       filter.category = category;
     }
+
     res
       .status(200)
       .send(await Video.find(filter).populate("talent").sort({ _id: -1 }));
